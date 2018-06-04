@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import moment from "moment"
+import MenuBar from "./components/MenuBar"
+import Timer from "./components/Timer"
 
 class App extends Component {
 
@@ -9,7 +11,7 @@ class App extends Component {
         this.state = {
             startTime: null,
             endTime: null,
-            timeLeft: 0,
+            timeLeft: 25*1000*60,
         }
     }
 
@@ -35,7 +37,7 @@ class App extends Component {
             timeLeft: timeLeft,
         })
 
-        setInterval(() => {
+        const timerId = setInterval(() => {
             const currentTime = moment()
             const endTime = moment(this.state.endTime)
             const timeLeft = endTime.diff(currentTime)
@@ -45,20 +47,21 @@ class App extends Component {
             })
         }, 1000)
 
+        console.log(timerId)
+
     }
 
 
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Pomodoro Timer</h1>
-        </header>
-        <p className="App-intro">
-          <button onClick={() => this.startTimer()}>25 minutes</button>
-            <li>Time left: {this.getMinutesAndSeconds(this.state.timeLeft)}</li>
-            <li>Start Time: {moment(this.state.startTime).format("h:mm:ss")}</li>
-            <li>End Time: {moment(this.state.endTime).format("h:mm:ss")}</li>
+          <MenuBar/>
+          <Timer/>
+          <p className="App-intro">
+            <button onClick={() => this.startTimer()}>Pomodoro</button>
+                <button onClick={() => {}}>Short Break</button>
+                <button onClick={() => {}}>Long Break</button>
+                Time left: {this.getMinutesAndSeconds(this.state.timeLeft)}
         </p>
       </div>
     );
