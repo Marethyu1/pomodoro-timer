@@ -14,7 +14,10 @@ const styles = theme => ({
 
 const DefaultButton = (props) => {
     return (
-        <Button variant="contained" className={props.classes.button }>
+        <Button
+            variant="contained"
+            className={props.classes.button}
+            onClick={() => props.onClick()}>
             {props.children}
         </Button>
     )
