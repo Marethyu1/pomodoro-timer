@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import DefaultButton from "./DefaultButton"
 import moment from "moment"
+import createNotification from "../lib/notifications"
 
 const SECONDS = 60
 const MILLISECONDS = 1000
 const TWENTY_FIVE_MINUTES = 25 * SECONDS * MILLISECONDS
+
 
 const defaultState = {
     timeLeft: TWENTY_FIVE_MINUTES,
@@ -22,7 +24,6 @@ class Timer extends Component {
     }
 
     setTimerLength(minutes){
-        console.log("setting timer length...")
         this.reset()
         const timeInMS = minutes * SECONDS * MILLISECONDS
         this.setState({
@@ -45,11 +46,10 @@ class Timer extends Component {
             const endTime = moment(this.state.endTime)
             const timeLeft = endTime.diff(currentTime)
 
-            console.log(timeLeft)
 
             if (timeLeft < 0) {
                 this.clearTimers()
-                alert("Time Up!")
+                createNotification("Your time is up!")
                 this.reset()
             }
 
@@ -114,8 +114,8 @@ class Timer extends Component {
         return (
             <div>
                 <DefaultButton onClick={() =>this.setTimerLength(25)}>Pomodoro</DefaultButton>
-                <DefaultButton onClick={() =>this.setTimerLength(5)}>Short Break</DefaultButton>
-                <DefaultButton onClick={() =>this.setTimerLength(0.01)}>Long Break</DefaultButton>
+                <DefaultButton onClick={() =>this.setTimerLength(0.01)}>Short Break</DefaultButton>
+                <DefaultButton onClick={() =>this.setTimerLength(10)}>Long Break</DefaultButton>
                 <br/>
                 <h1>{this.getMinutesAndSeconds(this.state.timeLeft)}</h1>
                 <br/>
