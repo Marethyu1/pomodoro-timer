@@ -33,11 +33,26 @@ class Timer extends Component {
     }
 
     getMinutesAndSeconds(ms){
-        let minutes = Math.floor(ms / 60000) % 60;
+        let minutes = Math.floor(ms / 60000) % 60
         let seconds =  Math.round((ms / 1000) % 60)
-        if (seconds < 10) seconds = "0" + seconds
-        if (minutes < 10) minutes = "0" + minutes
-        return `${minutes}:${seconds}`
+
+        if (seconds === 60){
+            seconds = 0
+            minutes++
+        }
+
+        const addZeroIfNecessary = (value) => {
+            let output  = String(value)
+            if (output.length === 1) {
+                output = "0" + output
+            }
+            return output
+        }
+
+        let convertedMinutes = addZeroIfNecessary(minutes)
+        let convertedSeconds = addZeroIfNecessary(seconds)
+
+        return `${convertedMinutes}:${convertedSeconds}`
     }
 
     tick(){
