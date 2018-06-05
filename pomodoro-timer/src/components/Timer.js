@@ -33,8 +33,8 @@ class Timer extends Component {
     }
 
     getMinutesAndSeconds(ms){
-        let minutes = Math.floor(ms / 60000) % 60
-        let seconds =  Math.round((ms / 1000) % 60)
+        let minutes = Math.max(0, Math.floor(ms / 60000) % 60)
+        let seconds =  Math.max(0, Math.round((ms / 1000) % 60))
 
         if (seconds === 60){
             seconds = 0
