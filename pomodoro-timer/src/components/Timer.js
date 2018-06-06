@@ -52,6 +52,8 @@ class Timer extends Component {
         let convertedMinutes = addZeroIfNecessary(minutes)
         let convertedSeconds = addZeroIfNecessary(seconds)
 
+        document.title = `${convertedMinutes}:${convertedSeconds} Pomodoro Timer`
+
         return `${convertedMinutes}:${convertedSeconds}`
     }
 
