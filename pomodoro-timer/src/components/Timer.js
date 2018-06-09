@@ -134,7 +134,7 @@ class Timer extends Component {
                 <DefaultButton onClick={() =>this.setTimerLength(0.01)}>Short Break</DefaultButton>
                 <DefaultButton onClick={() =>this.setTimerLength(10)}>Long Break</DefaultButton>
                 <br/>
-                <h1>{this.getMinutesAndSeconds(this.state.timeLeft)}</h1>
+                <h1 style={{"font-size":50}}>{this.getMinutesAndSeconds(this.state.timeLeft)}</h1>
                 <br/>
                 {timerControl}
                 <DefaultButton onClick={() => this.reset()}>Reset</DefaultButton>

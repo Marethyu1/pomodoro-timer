@@ -15,6 +15,7 @@ const styles = theme => ({
 const DefaultButton = (props) => {
     return (
         <Button
+            color="primary"
             variant="contained"
             className={props.classes.button}
             onClick={() => props.onClick()}>
