@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import DefaultButton from "./DefaultButton"
 import moment from "moment"
 import createNotification from "../lib/notifications"
+import { connect } from "react-redux"
+import timerReducer from "../reducers/timer";
+import {addOne, addX} from "../actions/timer-actions"
 
 const SECONDS = 60
 const MILLISECONDS = 1000
@@ -134,14 +137,30 @@ class Timer extends Component {
                 <DefaultButton onClick={() =>this.setTimerLength(0.01)}>Short Break</DefaultButton>
                 <DefaultButton onClick={() =>this.setTimerLength(10)}>Long Break</DefaultButton>
                 <br/>
-                <h1 style={{"font-size":50}}>{this.getMinutesAndSeconds(this.state.timeLeft)}</h1>
+                {this.props.timer.counter}
+                <h1 style={{"fontSize":50}}>{this.getMinutesAndSeconds(this.state.timeLeft)}</h1>
                 <br/>
                 {timerControl}
                 <DefaultButton onClick={() => this.reset()}>Reset</DefaultButton>
+                <DefaultButton onClick={() => this.props.addOne()}>Add One </DefaultButton>
+                <DefaultButton onClick={() => this.props.addFive(5)}>Add Five </DefaultButton>
             </div>
         );
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        timer: state.timer
+    }
+}
 
-export default Timer;
+const mapDispatchToProps = dispatch => {
+    return {
+        addOne: () => dispatch(addOne()),
+        addFive: (amount) => dispatch(addX(amount))
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Timer);
