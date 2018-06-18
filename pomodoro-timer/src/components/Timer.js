@@ -3,7 +3,7 @@ import DefaultButton from "./DefaultButton"
 import moment from "moment"
 import createNotification from "../lib/notifications"
 import { connect } from "react-redux"
-import {setTimeLeft} from "../actions/timer-actions"
+import {setTimerLength, startTimer} from "../actions/timer-actions"
 
 const SECONDS = 60
 const MILLISECONDS = 1000
@@ -70,7 +70,6 @@ class Timer extends Component {
             const endTime = moment(this.state.endTime)
             const timeLeft = endTime.diff(currentTime)
 
-
             if (timeLeft < 0) {
                 this.clearTimers()
                 createNotification("Your time is up!")
@@ -136,14 +135,15 @@ class Timer extends Component {
 
         return (
             <div>
-                <DefaultButton onClick={() =>this.props.setTimeLeft(TWENTY_FIVE_MINUTES)}>Pomodoro</DefaultButton>
-                <DefaultButton onClick={() =>this.props.setTimeLeft(1000)}>Short Break</DefaultButton>
-                <DefaultButton onClick={() =>this.props.setTimeLeft(TEN_MINUTES)}>Long Break</DefaultButton>
+                <DefaultButton onClick={() =>this.props.setTimerLength(TWENTY_FIVE_MINUTES)}>Pomodoro</DefaultButton>
+                <DefaultButton onClick={() =>this.props.setTimerLength(1000)}>Short Break</DefaultButton>
+                <DefaultButton onClick={() =>this.props.setTimerLength(TEN_MINUTES)}>Long Break</DefaultButton>
                 <br/>
                 <h1 style={{"fontSize":50}}>{this.getMinutesAndSeconds(this.props.timer.timeLeft)}</h1>
                 <br/>
                 {timerControl}
                 <DefaultButton onClick={() => this.reset()}>Reset</DefaultButton>
+                <DefaultButton onClick={() => this.props.startTimer()}>Update Time Left</DefaultButton>
             </div>
         );
     }
@@ -157,7 +157,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setTimeLeft: (timeLeft) => dispatch(setTimeLeft(timeLeft))
+        setTimerLength: (timeLeft) => dispatch(setTimerLength(timeLeft)),
+        startTimer: () => dispatch(startTimer())
     }
 }
 
