@@ -1,6 +1,10 @@
 import {SET_TIMER_LENGTH,
     UPDATE_TIME_LEFT,
-    SET_END_TIME, SET_TIMER_ID} from "../actions/timer-actions";
+    SET_END_TIME,
+    SET_TIMER_ID,
+    CLEAR_TIMERS,
+    SET_IN_PROGRESS,
+} from "../actions/timer-actions";
 import moment from "moment"
 
 
@@ -12,7 +16,8 @@ const initialState = {
     timeLeft: TWENTY_FIVE_MINUTES,
     timerLength: TWENTY_FIVE_MINUTES,
     endTime: null,
-    timerIDs: []
+    timerIDs: [],
+    inProgress: false,
 }
 
 const timeDifference = (endTime) => {
@@ -49,6 +54,26 @@ const timerReducer = (state=initialState, action) =>  {
             return {
                 ...state,
                 timerIDs: [...state.timerIDs, action.payload]
+            }
+        }
+
+        case CLEAR_TIMERS: {
+            const {timerIDs} = state
+            console.log(timerIDs)
+            timerIDs.forEach(id => {
+                clearInterval(id)
+            })
+
+            return {
+                ...state,
+                timerIDS: []
+            }
+        }
+
+        case SET_IN_PROGRESS: {
+            return {
+                ...state,
+                inProgress: action.payload
             }
         }
     }

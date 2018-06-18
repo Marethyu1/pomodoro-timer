@@ -3,7 +3,7 @@ import DefaultButton from "./DefaultButton"
 import moment from "moment"
 import createNotification from "../lib/notifications"
 import { connect } from "react-redux"
-import {setTimerLength, startTimer} from "../actions/timer-actions"
+import {setTimerLength, startTimer, pauseTimer} from "../actions/timer-actions"
 
 const SECONDS = 60
 const MILLISECONDS = 1000
@@ -128,9 +128,9 @@ class Timer extends Component {
 
     render() {
 
-        let timerControl = this.state.inProgress
-            ? <DefaultButton onClick={() =>this.pause()}>Pause</DefaultButton>
-            : <DefaultButton onClick={() =>this.start()}>Start</DefaultButton>
+        let timerControl = this.props.timer.inProgress
+            ? <DefaultButton onClick={() =>this.props.pauseTimer()}>Pause</DefaultButton>
+            : <DefaultButton onClick={() => this.props.startTimer()}>Start</DefaultButton>
 
 
         return (
@@ -143,7 +143,6 @@ class Timer extends Component {
                 <br/>
                 {timerControl}
                 <DefaultButton onClick={() => this.reset()}>Reset</DefaultButton>
-                <DefaultButton onClick={() => this.props.startTimer()}>Update Time Left</DefaultButton>
             </div>
         );
     }
@@ -158,7 +157,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         setTimerLength: (timeLeft) => dispatch(setTimerLength(timeLeft)),
-        startTimer: () => dispatch(startTimer())
+        startTimer: () => dispatch(startTimer()),
+        pauseTimer: () => dispatch(pauseTimer()),
     }
 }
 
