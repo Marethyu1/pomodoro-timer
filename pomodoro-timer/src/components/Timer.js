@@ -3,12 +3,16 @@ import DefaultButton from "./DefaultButton"
 import moment from "moment"
 import createNotification from "../lib/notifications"
 import { connect } from "react-redux"
-import timerReducer from "../reducers/timer";
-import {addOne, addX} from "../actions/timer-actions"
+import {setTimeLeft} from "../actions/timer-actions"
 
 const SECONDS = 60
 const MILLISECONDS = 1000
-const TWENTY_FIVE_MINUTES = 25 * SECONDS * MILLISECONDS
+
+const minutesToSeconds = (x) => x * SECONDS * MILLISECONDS
+
+const TWENTY_FIVE_MINUTES = minutesToSeconds(25)
+const TEN_MINUTES = minutesToSeconds(10)
+
 
 
 const defaultState = {
@@ -120,7 +124,6 @@ class Timer extends Component {
         this.setState((prev) => ({
             ...defaultState,
             timeLeft: prev.lastTimeSelected,
-
         }))
     }
 
@@ -133,17 +136,14 @@ class Timer extends Component {
 
         return (
             <div>
-                <DefaultButton onClick={() =>this.setTimerLength(25)}>Pomodoro</DefaultButton>
-                <DefaultButton onClick={() =>this.setTimerLength(0.01)}>Short Break</DefaultButton>
-                <DefaultButton onClick={() =>this.setTimerLength(10)}>Long Break</DefaultButton>
+                <DefaultButton onClick={() =>this.props.setTimeLeft(TWENTY_FIVE_MINUTES)}>Pomodoro</DefaultButton>
+                <DefaultButton onClick={() =>this.props.setTimeLeft(1000)}>Short Break</DefaultButton>
+                <DefaultButton onClick={() =>this.props.setTimeLeft(TEN_MINUTES)}>Long Break</DefaultButton>
                 <br/>
-                {this.props.timer.counter}
-                <h1 style={{"fontSize":50}}>{this.getMinutesAndSeconds(this.state.timeLeft)}</h1>
+                <h1 style={{"fontSize":50}}>{this.getMinutesAndSeconds(this.props.timer.timeLeft)}</h1>
                 <br/>
                 {timerControl}
                 <DefaultButton onClick={() => this.reset()}>Reset</DefaultButton>
-                <DefaultButton onClick={() => this.props.addOne()}>Add One </DefaultButton>
-                <DefaultButton onClick={() => this.props.addFive(5)}>Add Five </DefaultButton>
             </div>
         );
     }
@@ -151,14 +151,13 @@ class Timer extends Component {
 
 const mapStateToProps = state => {
     return {
-        timer: state.timer
+        timer: state.timer,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        addOne: () => dispatch(addOne()),
-        addFive: (amount) => dispatch(addX(amount))
+        setTimeLeft: (timeLeft) => dispatch(setTimeLeft(timeLeft))
     }
 }
 

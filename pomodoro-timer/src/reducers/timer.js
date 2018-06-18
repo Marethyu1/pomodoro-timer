@@ -1,21 +1,22 @@
+import {SET_TIME_LEFT} from "../actions/timer-actions";
+
+const SECONDS = 60
+const MILLISECONDS = 1000
+export const TWENTY_FIVE_MINUTES = 25 * SECONDS * MILLISECONDS
+
+
 
 const initialState = {
-    counter: 0
+    timeLeft: TWENTY_FIVE_MINUTES
 }
+
 
 const timerReducer = (state=initialState, action) =>  {
     switch (action.type) {
-        case "ADD_ONE": {
+        case SET_TIME_LEFT: {
             return {
                 ...state,
-                counter: state.counter + 1
-            }
-        }
-
-        case "ADD_X": {
-            return {
-                ...state,
-                counter: state.counter + action.payload
+                timeLeft: action.payload
             }
         }
     }

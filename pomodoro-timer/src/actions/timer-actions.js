@@ -1,9 +1,6 @@
+export const SET_TIME_LEFT = "SET_TIME_LEFT"
 
-export const addOne = () => ({
-    type: 'ADD_ONE',
-})
-
-export const addX = (amount) => ({
-    type: "ADD_X",
+export const setTimeLeft = (amount) => ({
+    type: SET_TIME_LEFT,
     payload: amount
 })
