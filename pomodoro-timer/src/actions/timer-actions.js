@@ -1,12 +1,13 @@
-import moment from "moment"
+import createNotification from "../lib/notifications"
+
 
 export const TICK_TIMER = "TICK_TIMER"
 export const SET_TIMER_LENGTH = "SET_TIMER_LENGTH"
-export const START_TIMER = "START_TIMER"
 export const SET_END_TIME = "SET_END_TIME"
 export const SET_TIMER_ID = "SET_TIMER_ID"
 export const CLEAR_TIMERS = "CLEAR_TIMERS"
 export const SET_IN_PROGRESS = "SET_IN_PROGRESS"
+export const SET_TIMER_TO_ZERO = "SET_TIMER_TO_ZERO"
 
 
 export const updateTimeLeft = () => ({
@@ -34,13 +35,21 @@ export const pauseTimer = () => {
 }
 
 const tick = () => {
-    return dispatch => {
+    return (dispatch, getState) => {
+        const {timerIDs} = getState().timer
+        if (timerIDs.length) return
         dispatch(setInProgress(true))
         dispatch(updateTimeLeft())
         const timerId = setInterval(() => {
-            dispatch(() => {
+            const {timeLeft} = getState().timer
+            if (timeLeft < 1000) {
+                createNotification("Your time is up!")
+                dispatch(stopTimer())
+            } else {
                 dispatch(updateTimeLeft())
-            })
+
+            }
+
         }, 1000)
         dispatch(setTimerId(timerId))
     }
@@ -60,6 +69,20 @@ export const resumeTimer = () => {
         dispatch(setEndTime(timeLeft))
         dispatch(tick())
     }
+}
+
+export const setTimerToZero = () => {
+    return {
+        type: SET_TIMER_TO_ZERO,
+    }
+}
+
+export const stopTimer = () => {
+    return dispatch => {
+        dispatch(clearTimers())
+        dispatch(setTimerToZero())
+    }
+
 }
 
 export const clearTimers = () => {

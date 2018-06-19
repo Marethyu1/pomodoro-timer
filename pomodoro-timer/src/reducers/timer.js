@@ -4,9 +4,9 @@ import {SET_TIMER_LENGTH,
     SET_TIMER_ID,
     CLEAR_TIMERS,
     SET_IN_PROGRESS,
+    SET_TIMER_TO_ZERO
 } from "../actions/timer-actions";
 import moment from "moment"
-
 
 const SECONDS = 60
 const MILLISECONDS = 1000
@@ -60,7 +60,6 @@ const timerReducer = (state=initialState, action) =>  {
 
         case CLEAR_TIMERS: {
             const {timerIDs} = state
-            console.log(timerIDs)
             timerIDs.forEach(id => {
                 clearInterval(id)
             })
@@ -76,6 +75,16 @@ const timerReducer = (state=initialState, action) =>  {
                 ...state,
                 sessionInProgress: true,
                 inProgress: action.payload
+            }
+        }
+
+        case SET_TIMER_TO_ZERO: {
+            return {
+                ...state,
+                timeLeft: 0,
+                sessionInProgress: false,
+                inProgress: false,
+
             }
         }
     }
