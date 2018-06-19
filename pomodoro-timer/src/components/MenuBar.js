@@ -18,7 +18,7 @@ class MenuBar extends Component {
     render() {
         return (
             <div className={this.props.classes.root}>
-                <AppBar position="static" color="default">
+                <AppBar color="default">
                     <Toolbar>
                         <Typography variant="title" color="inherit">
                             Pomodoro Timer

@@ -3,18 +3,18 @@ import DefaultButton from "./DefaultButton"
 import { connect } from "react-redux"
 import {setTimerLength, startTimer, pauseTimer, resumeTimer} from "../actions/timer-actions"
 
-const SECONDS = 60
-const MILLISECONDS = 1000
+// const SECONDS = 60
+// const MILLISECONDS = 1000
 
-const minutesToSeconds = (x) => x * SECONDS * MILLISECONDS
+// const minutesToSeconds = (x) => x * SECONDS * MILLISECONDS
 
-const TWENTY_FIVE_MINUTES = minutesToSeconds(25)
-const TEN_MINUTES = minutesToSeconds(10)
+// const TWENTY_FIVE_MINUTES = minutesToSeconds(25)
+// const TEN_MINUTES = minutesToSeconds(10)
 
 class Timer extends Component {
-    constructor(props) {
-        super(props)
-    }
+    // constructor(props) {
+    //     super(props)
+    // }
 
     getMinutesAndSeconds(ms){
         let minutes = Math.max(0, Math.floor(ms / 60000) % 60)
@@ -60,12 +60,12 @@ class Timer extends Component {
 
         return (
             <div>
-                <DefaultButton onClick={() =>this.props.setTimerLength(TWENTY_FIVE_MINUTES)}>Pomodoro</DefaultButton>
-                <DefaultButton onClick={() =>this.props.setTimerLength(1000)}>Short Break</DefaultButton>
-                <DefaultButton onClick={() =>this.props.setTimerLength(TEN_MINUTES)}>Long Break</DefaultButton>
-                <br/>
-                <h1 style={{"fontSize":50}}>{this.getMinutesAndSeconds(this.props.timer.timeLeft)}</h1>
-                <br/>
+                {/*<DefaultButton onClick={() =>this.props.setTimerLength(TWENTY_FIVE_MINUTES)}>Pomodoro</DefaultButton>*/}
+                {/*<DefaultButton onClick={() =>this.props.setTimerLength(1000)}>Short Break</DefaultButton>*/}
+                {/*<DefaultButton onClick={() =>this.props.setTimerLength(TEN_MINUTES)}>Long Break</DefaultButton>*/}
+                {/*<br/>*/}
+                <p style={{"fontSize":50}}>{this.getMinutesAndSeconds(this.props.timer.timeLeft)}</p>
+                {/*<br/>*/}
                 {timerControl}
             </div>
         );
