@@ -3,7 +3,7 @@ import DefaultButton from "./DefaultButton"
 import moment from "moment"
 import createNotification from "../lib/notifications"
 import { connect } from "react-redux"
-import {setTimerLength, startTimer, pauseTimer} from "../actions/timer-actions"
+import {setTimerLength, startTimer, pauseTimer, resumeTimer} from "../actions/timer-actions"
 
 const SECONDS = 60
 const MILLISECONDS = 1000
@@ -128,9 +128,19 @@ class Timer extends Component {
 
     render() {
 
+        const startOrResumeTimer = (sessionInProgress) => {
+            if (sessionInProgress) {
+                this.props.resumeTimer()
+            } else {
+                this.props.startTimer()
+            }
+        }
+
+        const startOrResume = this.props.timer.sessionInProgress ? "Resume" : "Start"
+
         let timerControl = this.props.timer.inProgress
             ? <DefaultButton onClick={() =>this.props.pauseTimer()}>Pause</DefaultButton>
-            : <DefaultButton onClick={() => this.props.startTimer()}>Start</DefaultButton>
+            : <DefaultButton onClick={() => startOrResumeTimer(this.props.timer.sessionInProgress)}>{startOrResume}</DefaultButton>
 
 
         return (
@@ -159,6 +169,7 @@ const mapDispatchToProps = dispatch => {
         setTimerLength: (timeLeft) => dispatch(setTimerLength(timeLeft)),
         startTimer: () => dispatch(startTimer()),
         pauseTimer: () => dispatch(pauseTimer()),
+        resumeTimer: () => dispatch(resumeTimer()),
     }
 }
 

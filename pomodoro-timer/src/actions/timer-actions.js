@@ -1,4 +1,6 @@
-export const UPDATE_TIME_LEFT = "UPDATE_TIME_LEFT"
+import moment from "moment"
+
+export const TICK_TIMER = "TICK_TIMER"
 export const SET_TIMER_LENGTH = "SET_TIMER_LENGTH"
 export const START_TIMER = "START_TIMER"
 export const SET_END_TIME = "SET_END_TIME"
@@ -6,12 +8,14 @@ export const SET_TIMER_ID = "SET_TIMER_ID"
 export const CLEAR_TIMERS = "CLEAR_TIMERS"
 export const SET_IN_PROGRESS = "SET_IN_PROGRESS"
 
+
 export const updateTimeLeft = () => ({
-    type: UPDATE_TIME_LEFT,
+    type: TICK_TIMER,
 })
 
-export const setEndTime = () => ({
+export const setEndTime = (endTime) => ({
     type: SET_END_TIME,
+    payload: endTime
 })
 
 export const setInProgress = (inProgress) => {
@@ -21,9 +25,16 @@ export const setInProgress = (inProgress) => {
     }
 }
 
-export const startTimer = () => {
+
+export const pauseTimer = () => {
     return dispatch => {
-        dispatch(setEndTime())
+        dispatch(clearTimers())
+        dispatch(setInProgress(false))
+    }
+}
+
+const tick = () => {
+    return dispatch => {
         dispatch(setInProgress(true))
         dispatch(updateTimeLeft())
         const timerId = setInterval(() => {
@@ -34,12 +45,20 @@ export const startTimer = () => {
         dispatch(setTimerId(timerId))
     }
 }
-//TODO make start and resume functionally the same
 
-export const pauseTimer = () => {
-    return dispatch => {
-        dispatch(clearTimers())
-        dispatch(setInProgress(false))
+export const startTimer = () => {
+    return (dispatch, getState) => {
+        const {timerLength} = getState().timer
+        dispatch(setEndTime(timerLength))
+        dispatch(tick())
+    }
+}
+
+export const resumeTimer = () => {
+    return (dispatch, getState) => {
+        const {timeLeft} = getState().timer
+        dispatch(setEndTime(timeLeft))
+        dispatch(tick())
     }
 }
 

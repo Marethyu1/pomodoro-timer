@@ -1,5 +1,5 @@
 import {SET_TIMER_LENGTH,
-    UPDATE_TIME_LEFT,
+    TICK_TIMER,
     SET_END_TIME,
     SET_TIMER_ID,
     CLEAR_TIMERS,
@@ -18,6 +18,7 @@ const initialState = {
     endTime: null,
     timerIDs: [],
     inProgress: false,
+    sessionInProgress: false,
 }
 
 const timeDifference = (endTime) => {
@@ -28,7 +29,7 @@ const timeDifference = (endTime) => {
 
 const timerReducer = (state=initialState, action) =>  {
     switch (action.type) {
-        case UPDATE_TIME_LEFT: {
+        case TICK_TIMER: {
             const timeLeft = timeDifference(state.endTime)
             return {
                 ...state,
@@ -44,7 +45,7 @@ const timerReducer = (state=initialState, action) =>  {
         }
         case SET_END_TIME: {
             let startTime = moment()
-            let endTime = moment(startTime.toDate()).add(state.timerLength, 'ms')
+            let endTime = startTime.add(action.payload, 'ms')
             return {
                 ...state,
                 endTime: endTime.valueOf()
@@ -66,13 +67,14 @@ const timerReducer = (state=initialState, action) =>  {
 
             return {
                 ...state,
-                timerIDS: []
+                timerIDs: []
             }
         }
 
         case SET_IN_PROGRESS: {
             return {
                 ...state,
+                sessionInProgress: true,
                 inProgress: action.payload
             }
         }
