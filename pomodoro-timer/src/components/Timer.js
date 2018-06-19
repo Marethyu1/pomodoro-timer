@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import DefaultButton from "./DefaultButton"
-import moment from "moment"
-import createNotification from "../lib/notifications"
 import { connect } from "react-redux"
 import {setTimerLength, startTimer, pauseTimer, resumeTimer} from "../actions/timer-actions"
 
@@ -13,30 +11,9 @@ const minutesToSeconds = (x) => x * SECONDS * MILLISECONDS
 const TWENTY_FIVE_MINUTES = minutesToSeconds(25)
 const TEN_MINUTES = minutesToSeconds(10)
 
-
-
-const defaultState = {
-    timeLeft: TWENTY_FIVE_MINUTES,
-    startTime: null,
-    endTime: null,
-    inProgress: false,
-    intervalIds: [],
-    lastTimeSelected: TWENTY_FIVE_MINUTES
-}
-
 class Timer extends Component {
     constructor(props) {
         super(props)
-        this.state = defaultState
-    }
-
-    setTimerLength(minutes){
-        this.reset()
-        const timeInMS = minutes * SECONDS * MILLISECONDS
-        this.setState({
-            timeLeft: timeInMS,
-            lastTimeSelected: timeInMS
-        })
     }
 
     getMinutesAndSeconds(ms){
@@ -62,68 +39,6 @@ class Timer extends Component {
         document.title = `${convertedMinutes}:${convertedSeconds} Pomodoro Timer`
 
         return `${convertedMinutes}:${convertedSeconds}`
-    }
-
-    tick(){
-        const timerId = setInterval(() => {
-            const currentTime = moment()
-            const endTime = moment(this.state.endTime)
-            const timeLeft = endTime.diff(currentTime)
-
-            if (timeLeft < 0) {
-                this.clearTimers()
-                createNotification("Your time is up!")
-                this.reset()
-            }
-
-            this.setState({
-                timeLeft: timeLeft
-            })
-        }, 1000)
-
-        this.setState((prev, props) => ({
-            intervalIds: [...prev.intervalIds, timerId]
-        }))
-    }
-
-    start(){
-        let startTime = moment()
-        let endTime = moment(startTime.toDate()).add(this.state.timeLeft, 'ms')
-        let timeLeft = endTime.diff(startTime)
-
-        this.setState({
-            inProgress: true,
-            startTime: startTime,
-            endTime: endTime,
-            timeLeft: timeLeft,
-        })
-        this.tick()
-
-    }
-
-    clearTimers(){
-        this.state.intervalIds.forEach(id => {
-            clearInterval(id)
-        })
-
-        this.setState({
-            intervalIds: []
-        })
-    }
-
-    pause(){
-        this.setState({
-            inProgress: false
-        })
-        this.clearTimers()
-    }
-
-    reset(){
-        this.clearTimers()
-        this.setState((prev) => ({
-            ...defaultState,
-            timeLeft: prev.lastTimeSelected,
-        }))
     }
 
     render() {
@@ -152,7 +67,6 @@ class Timer extends Component {
                 <h1 style={{"fontSize":50}}>{this.getMinutesAndSeconds(this.props.timer.timeLeft)}</h1>
                 <br/>
                 {timerControl}
-                <DefaultButton onClick={() => this.reset()}>Reset</DefaultButton>
             </div>
         );
     }
