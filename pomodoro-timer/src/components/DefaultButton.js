@@ -6,17 +6,19 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
     button: {
         margin: theme.spacing.unit,
-    },
-    input: {
-        display: 'none',
+        color: "white",
+        border: "1px solid white",
+        width: "200px",
+        "letter-spacing": ".1em"
+
     },
 });
 
 const DefaultButton = (props) => {
     return (
         <Button
-            color="primary"
-            variant="contained"
+            {...props.extra}
+            variant="outlined"
             className={props.classes.button}
             onClick={() => props.onClick()}>
             {props.children}

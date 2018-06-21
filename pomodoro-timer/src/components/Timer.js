@@ -57,16 +57,18 @@ class Timer extends Component {
             ? <DefaultButton onClick={() =>this.props.pauseTimer()}>Pause</DefaultButton>
             : <DefaultButton onClick={() => startOrResumeTimer(this.props.timer.sessionInProgress)}>{startOrResume}</DefaultButton>
 
+        let stopStart = !this.props.timer.sessionInProgress
+
 
         return (
             <div>
                 {/*<DefaultButton onClick={() =>this.props.setTimerLength(TWENTY_FIVE_MINUTES)}>Pomodoro</DefaultButton>*/}
                 {/*<DefaultButton onClick={() =>this.props.setTimerLength(1000)}>Short Break</DefaultButton>*/}
-                {/*<DefaultButton onClick={() =>this.props.setTimerLength(TEN_MINUTES)}>Long Break</DefaultButton>*/}
                 {/*<br/>*/}
-                <p style={{"fontSize":50}}>{this.getMinutesAndSeconds(this.props.timer.timeLeft)}</p>
+                <p style={{"fontSize":"80px", "font-weight": "lighter"}}>{this.getMinutesAndSeconds(this.props.timer.timeLeft)}</p>
                 {/*<br/>*/}
                 {timerControl}
+                <DefaultButton extra={{disabled: stopStart}} onClick={() => {}}>Stop</DefaultButton>
             </div>
         );
     }

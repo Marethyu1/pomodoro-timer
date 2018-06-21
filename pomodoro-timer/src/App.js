@@ -29,7 +29,7 @@ class App extends Component {
             <div className="App">
               <MenuBar/>
                 <Grid container className={classes.root} justify="center" spacing={16}>
-                    <Grid item xs={5} style={{backgroundColor: "#d9534f", color: "white", borderRadius: 5}}>
+                    <Grid item xs={7} style={{backgroundColor: "#d9534f", color: "white", borderRadius: 5}}>
                         <br/>
                         <br/>
                         <br/>
