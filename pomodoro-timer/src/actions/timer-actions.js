@@ -8,6 +8,8 @@ export const SET_TIMER_ID = "[timer] SET_TIMER_ID"
 export const CLEAR_TIMERS = "[timer] CLEAR_TIMERS"
 export const SET_IN_PROGRESS = "[timer] SET_IN_PROGRESS"
 export const SET_TIMER_TO_ZERO = "[timer] SET_TIMER_TO_ZERO"
+export const START_SESSION = "[timer] START_SESSION"
+export const STOP_SESSION = "[timer] STOP_SESSION"
 
 
 export const updateTimeLeft = () => ({
@@ -58,6 +60,7 @@ const tick = () => {
 export const startTimer = () => {
     return (dispatch, getState) => {
         const {timerLength} = getState().timer
+        dispatch(startSession())
         dispatch(setEndTime(timerLength))
         dispatch(tick())
     }
@@ -80,9 +83,23 @@ export const setTimerToZero = () => {
 export const stopTimer = () => {
     return dispatch => {
         dispatch(clearTimers())
-        dispatch(setTimerToZero())
+        dispatch(setTimerLength(25*1000*60))
+        dispatch(setInProgress(false))
+        dispatch(stopSession())
     }
+}
 
+
+export const stopSession = () => {
+    return {
+        type: STOP_SESSION
+    }
+}
+
+export const startSession = () => {
+    return {
+        type: START_SESSION
+    }
 }
 
 export const clearTimers = () => {

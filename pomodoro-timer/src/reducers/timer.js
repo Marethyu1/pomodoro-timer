@@ -4,7 +4,9 @@ import {SET_TIMER_LENGTH,
     SET_TIMER_ID,
     CLEAR_TIMERS,
     SET_IN_PROGRESS,
-    SET_TIMER_TO_ZERO
+    SET_TIMER_TO_ZERO,
+    START_SESSION,
+    STOP_SESSION,
 } from "../actions/timer-actions";
 import moment from "moment"
 
@@ -73,7 +75,6 @@ const timerReducer = (state=initialState, action) =>  {
         case SET_IN_PROGRESS: {
             return {
                 ...state,
-                sessionInProgress: true,
                 inProgress: action.payload
             }
         }
@@ -85,6 +86,20 @@ const timerReducer = (state=initialState, action) =>  {
                 sessionInProgress: false,
                 inProgress: false,
 
+            }
+        }
+
+        case START_SESSION: {
+            return {
+                ...state,
+                sessionInProgress: true
+            }
+        }
+
+        case STOP_SESSION: {
+            return {
+                ...state,
+                sessionInProgress: false,
             }
         }
     }

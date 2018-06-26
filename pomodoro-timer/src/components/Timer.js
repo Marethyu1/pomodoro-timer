@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import DefaultButton from "./DefaultButton"
 import { connect } from "react-redux"
-import {setTimerLength, startTimer, pauseTimer, resumeTimer} from "../actions/timer-actions"
+import {setTimerLength, startTimer, pauseTimer, resumeTimer, stopTimer} from "../actions/timer-actions"
 
 // const SECONDS = 60
 // const MILLISECONDS = 1000
@@ -59,10 +59,12 @@ class Timer extends Component {
 
         let stopStart = !this.props.timer.sessionInProgress
 
-        let stopStartText = "Done"
-        if (this.props.timer.inProgress || !this.props.timer.sessionInProgress) {
-            stopStartText = "Stop"
-        }
+        const StopButton = <DefaultButton extra={{disabled: stopStart}} onClick={() => {this.props.stopTimer()}}>Stop</DefaultButton>
+        const DoneButton = <DefaultButton onClick={() => {}}>Done</DefaultButton>
+
+        const shouldRenderStop = this.props.timer.inProgress || !this.props.timer.sessionInProgress
+
+        let stopOrDoneButton = shouldRenderStop ? StopButton : DoneButton
 
         return (
             <div>
@@ -72,7 +74,7 @@ class Timer extends Component {
                 <p style={{"fontSize":"80px", "font-weight": "lighter"}}>{this.getMinutesAndSeconds(this.props.timer.timeLeft)}</p>
                 {/*<br/>*/}
                 {timerControl}
-                <DefaultButton extra={{disabled: stopStart}} onClick={() => {}}>{stopStartText}</DefaultButton>
+                {stopOrDoneButton}
             </div>
         );
     }
@@ -90,6 +92,7 @@ const mapDispatchToProps = dispatch => {
         startTimer: () => dispatch(startTimer()),
         pauseTimer: () => dispatch(pauseTimer()),
         resumeTimer: () => dispatch(resumeTimer()),
+        stopTimer: () => dispatch(stopTimer()),
     }
 }
 
