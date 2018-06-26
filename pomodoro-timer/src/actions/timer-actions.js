@@ -1,13 +1,13 @@
 import createNotification from "../lib/notifications"
 
 
-export const TICK_TIMER = "TICK_TIMER"
-export const SET_TIMER_LENGTH = "SET_TIMER_LENGTH"
-export const SET_END_TIME = "SET_END_TIME"
-export const SET_TIMER_ID = "SET_TIMER_ID"
-export const CLEAR_TIMERS = "CLEAR_TIMERS"
-export const SET_IN_PROGRESS = "SET_IN_PROGRESS"
-export const SET_TIMER_TO_ZERO = "SET_TIMER_TO_ZERO"
+export const TICK_TIMER = "[timer] TICK_TIMER"
+export const SET_TIMER_LENGTH = "[timer] SET_TIMER_LENGTH"
+export const SET_END_TIME = "[timer] SET_END_TIME"
+export const SET_TIMER_ID = "[timer] SET_TIMER_ID"
+export const CLEAR_TIMERS = "[timer] CLEAR_TIMERS"
+export const SET_IN_PROGRESS = "[timer] SET_IN_PROGRESS"
+export const SET_TIMER_TO_ZERO = "[timer] SET_TIMER_TO_ZERO"
 
 
 export const updateTimeLeft = () => ({
@@ -36,9 +36,9 @@ export const pauseTimer = () => {
 
 const tick = () => {
     return (dispatch, getState) => {
-        const {timerIDs} = getState().timer
+        const {timerIDs, inProgress} = getState().timer
         if (timerIDs.length) return
-        dispatch(setInProgress(true))
+        if (!inProgress) dispatch(setInProgress(true))
         dispatch(updateTimeLeft())
         const timerId = setInterval(() => {
             const {timeLeft} = getState().timer

@@ -59,6 +59,10 @@ class Timer extends Component {
 
         let stopStart = !this.props.timer.sessionInProgress
 
+        let stopStartText = "Done"
+        if (this.props.timer.inProgress || !this.props.timer.sessionInProgress) {
+            stopStartText = "Stop"
+        }
 
         return (
             <div>
@@ -68,7 +72,7 @@ class Timer extends Component {
                 <p style={{"fontSize":"80px", "font-weight": "lighter"}}>{this.getMinutesAndSeconds(this.props.timer.timeLeft)}</p>
                 {/*<br/>*/}
                 {timerControl}
-                <DefaultButton extra={{disabled: stopStart}} onClick={() => {}}>Stop</DefaultButton>
+                <DefaultButton extra={{disabled: stopStart}} onClick={() => {}}>{stopStartText}</DefaultButton>
             </div>
         );
     }
