@@ -1,5 +1,5 @@
 import { setTimerLength, updateTimeLeft } from "../../actions/timer-actions"
-import timerReducer, {TWENTY_FIVE_MINUTES} from "../../reducers/timer"
+import timerReducer, {TWENTY_FIVE_MINUTES} from "../timer"
 
 
 describe("The timer reducer", () => {

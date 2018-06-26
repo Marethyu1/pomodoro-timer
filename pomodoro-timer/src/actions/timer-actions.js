@@ -1,6 +1,5 @@
 import createNotification from "../lib/notifications"
 
-
 export const TICK_TIMER = "[timer] TICK_TIMER"
 export const SET_TIMER_LENGTH = "[timer] SET_TIMER_LENGTH"
 export const SET_END_TIME = "[timer] SET_END_TIME"
@@ -10,7 +9,6 @@ export const SET_IN_PROGRESS = "[timer] SET_IN_PROGRESS"
 export const SET_TIMER_TO_ZERO = "[timer] SET_TIMER_TO_ZERO"
 export const START_SESSION = "[timer] START_SESSION"
 export const STOP_SESSION = "[timer] STOP_SESSION"
-
 
 export const updateTimeLeft = () => ({
     type: TICK_TIMER,
@@ -114,7 +112,6 @@ export const setTimerId = (id) => {
         payload: id,
     }
 }
-
 
 export const setTimerLength = (amount) => ({
     type: SET_TIMER_LENGTH,
