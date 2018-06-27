@@ -3,7 +3,7 @@ import { ADD_TODO } from "../actions/todo-actions";
 
 
 const initialState = {
-    todos: [],
+    todos: [{category: "seng302", description:"marking"}],
 }
 
 const todoReducer = (state=initialState, action) => {

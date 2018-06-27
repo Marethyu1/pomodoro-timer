@@ -73,6 +73,15 @@ class Timer extends Component {
                 {/*<br/>*/}
                 <p style={{"fontSize":"80px", "font-weight": "lighter"}}>{this.getMinutesAndSeconds(this.props.timer.timeLeft)}</p>
                 {/*<br/>*/}
+                {/*{thing}*/}
+                {this.props.todoExists &&
+                    <div>
+                        <p style={{color: "#f3c3c2"}}>
+                            {this.props.todos[0].description}
+                        </p>
+                    </div>
+                }
+
                 {timerControl}
                 {stopOrDoneButton}
             </div>
@@ -83,6 +92,8 @@ class Timer extends Component {
 const mapStateToProps = state => {
     return {
         timer: state.timer,
+        todos: state.todo.todos,
+        todoExists: state.todo.todos.length > 0
     }
 }
 
