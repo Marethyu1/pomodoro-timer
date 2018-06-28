@@ -10,6 +10,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Checkbox from '@material-ui/core/Checkbox';
+
 
 
 const styles = theme => ({
@@ -30,7 +32,29 @@ class Todo extends Component {
         this.state = {
             category: "",
             description: "",
+            selected: [],
         }
+    }
+
+    handleClick = (event, id) => {
+        const { selected } = this.state;
+        const selectedIndex = selected.indexOf(id);
+        let newSelected = [];
+
+        if (selectedIndex === -1) {
+            newSelected = newSelected.concat(selected, id);
+        } else if (selectedIndex === 0) {
+            newSelected = newSelected.concat(selected.slice(1));
+        } else if (selectedIndex === selected.length - 1) {
+            newSelected = newSelected.concat(selected.slice(0, -1));
+        } else if (selectedIndex > 0) {
+            newSelected = newSelected.concat(
+                selected.slice(0, selectedIndex),
+                selected.slice(selectedIndex + 1),
+            );
+        }
+
+        this.setState({ selected: newSelected });
     }
 
     handleChange = name => event => {
@@ -44,6 +68,8 @@ class Todo extends Component {
             this.props.addTodo(this.state)
         }
     }
+
+    isSelected = id => this.state.selected.indexOf(id) !== -1;
 
     render() {
         return (
@@ -78,16 +104,26 @@ class Todo extends Component {
                             <TableRow>
                                 <TableCell>Category</TableCell>
                                 <TableCell>Description</TableCell>
+                                <TableCell></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {this.props.todos.map((n, i) => {
+                                const isSelected = this.isSelected(i);
                                 return (
-                                    <TableRow key={i}>
+                                    <TableRow key={i}
+                                              hover
+                                              onClick={event => this.handleClick(event, i)}
+                                    >
                                         <TableCell>
                                             {n.category}
                                         </TableCell>
-                                        <TableCell >{n.description}</TableCell>
+                                        <TableCell >
+                                            {n.description}
+                                        </TableCell>
+                                        <TableCell padding="checkbox">
+                                            <Checkbox checked={isSelected} />
+                                        </TableCell>
                                     </TableRow>
                                 );
                             })}
