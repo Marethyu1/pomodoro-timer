@@ -10,6 +10,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+
 
 
 const styles = theme => ({
@@ -33,6 +35,14 @@ class Todo extends Component {
         }
     }
 
+    resetState = () => {
+        this.setState({
+                category: "",
+                description: "",
+            })
+    }
+
+
     handleChange = name => event => {
         this.setState({
             [name]: event.target.value,
@@ -42,6 +52,7 @@ class Todo extends Component {
     submitOnEnter = (ev) => {
         if (ev.key === "Enter"){
             this.props.addTodo(this.state)
+            this.resetState()
         }
     }
 
@@ -49,45 +60,72 @@ class Todo extends Component {
         return (
             <div style={{"text-align": "left"}}>
                 <br/>
-                <TextField
-                    id="name"
-                    label="Category"
-                    placeholder="Category"
-                    value={this.state.category}
-                    onChange={this.handleChange('category')}
-                    margin="normal"
-                />
-                <TextField
-                    id="name"
-                    label="Description"
-                    placeholder="Description"
-                    value={this.state.description}
-                    onChange={this.handleChange('description')}
-                    margin="normal"
-                    onKeyPress={(ev) => this.submitOnEnter(ev)}
-
-                />
-                <Button
-                    variant={"contained"}
-                    onClick={() => this.props.addTodo(this.state)}
-                >+</Button>
 
                 <Paper className={{}}>
                     <Table className={{}}>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Category</TableCell>
-                                <TableCell>Description</TableCell>
+                                <TableCell>
+                                    <Typography variant="title" id="tableTitle">
+                                        Category
+                                    </Typography>
+                                </TableCell>
+                                <TableCell>
+                                    <Typography variant="title" id="tableTitle">
+                                        Description
+                                    </Typography>
+                                </TableCell>
+                                <TableCell>
+                                    <Typography variant="title" id="tableTitle">
+                                        Add / Remove
+                                    </Typography>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>
+                                    <TextField
+                                        id="name"
+                                        label="Category"
+                                        placeholder="Category"
+                                        value={this.state.category}
+                                        onChange={this.handleChange('category')}
+                                        margin="normal"
+                                    />
+                                </TableCell>
+                                <TableCell>
+                                    <TextField
+                                        id="name"
+                                        label="Description"
+                                        placeholder="Description"
+                                        value={this.state.description}
+                                        onChange={this.handleChange('description')}
+                                        margin="normal"
+                                        onKeyPress={(ev) => this.submitOnEnter(ev)}
+
+                                    />
+                                </TableCell>
+                                <TableCell>
+                                    <Button
+                                        variant={"contained"}
+                                        onClick={() => this.props.addTodo(this.state)}
+                                    >+</Button>
+                                </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {this.props.todos.map((n, i) => {
                                 return (
-                                    <TableRow key={i}>
+                                    <TableRow key={i} hover>
                                         <TableCell>
                                             {n.category}
                                         </TableCell>
                                         <TableCell >{n.description}</TableCell>
+                                        <TableCell>
+                                            <Button
+                                                variant={"contained"}
+                                                onClick={() => this.props.removeTodo(n)}
+                                            >-</Button>
+                                        </TableCell>
                                     </TableRow>
                                 );
                             })}
