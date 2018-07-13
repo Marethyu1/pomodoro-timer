@@ -2,7 +2,7 @@ import React, {Component} from "react"
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import {connect} from "react-redux"
-import {addTodo} from "../actions/todo-actions"
+import {addTodo, removeTodo} from "../actions/todo-actions"
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -115,7 +115,7 @@ class Todo extends Component {
                         <TableBody>
                             {this.props.todos.map((n, i) => {
                                 return (
-                                    <TableRow key={i} hover>
+                                    <TableRow key={n.id} hover>
                                         <TableCell>
                                             {n.category}
                                         </TableCell>
@@ -123,7 +123,7 @@ class Todo extends Component {
                                         <TableCell>
                                             <Button
                                                 variant={"contained"}
-                                                onClick={() => this.props.removeTodo(n)}
+                                                onClick={() => this.props.removeTodo(n.id)}
                                             >-</Button>
                                         </TableCell>
                                     </TableRow>
@@ -146,7 +146,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        addTodo: (todo) => dispatch(addTodo(todo))
+        addTodo: (todo) => dispatch(addTodo(todo)),
+        removeTodo: (id) => dispatch(removeTodo(id))
     }
 }
 
